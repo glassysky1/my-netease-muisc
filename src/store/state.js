@@ -1,5 +1,6 @@
 
 export default{
+  duration:0,
   loginStatus:false,//登录状态
   isPlaying:false,
   currentTime:0,

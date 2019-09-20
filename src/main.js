@@ -4,6 +4,7 @@ import router from './router'
 import store from './store'
 import './registerServiceWorker'
 import axios from "axios";
+// import $ from 'zepto'
 import './filters'
 Vue.config.productionTip = false
 import Mint from 'mint-ui';

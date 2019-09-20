@@ -4,5 +4,11 @@ export default{
   },
   songInfo(state){
     return state.songInfo
+  },
+  duration(state){
+    return state.duration
+  },
+  currentTime(state){
+    return state.currentTime
   }
 }

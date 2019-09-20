@@ -1,4 +1,4 @@
-import { UPDATE_lOGIN_STATUS, SET_SONG_INFO, SET_IS_PLAYING } from "./mutation-types";
+import { UPDATE_lOGIN_STATUS, SET_SONG_INFO, SET_IS_PLAYING, SET_DURATION, SET_CURRENTTIME } from "./mutation-types";
 import { getLoginStatus,getMusicUrl } from "../api/index";
 export default {
   //得到登录状态
@@ -37,5 +37,13 @@ export default {
   //是否播放
   getThenSetIsPlaying({commit},isPlaying){
     commit(SET_IS_PLAYING,isPlaying)
+  },
+  //记录设置总时间
+  getThenSetDuration({commit},duration){
+    commit(SET_DURATION, duration)
+  },
+  //记录当前时间
+  getThenSetCurrentTime({commit},currentTime){
+   commit(SET_CURRENTTIME,currentTime) 
   }
 }
