@@ -1,25 +1,28 @@
 <template>
   <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </div>
-    <router-view/>
+    <MyAudio></MyAudio>
+    <Nav v-if="this.$route.meta.showNav" />
+    <keep-alive :exclude="['PlaylistDetail', 'MyAudio', 'PlayControl']">
+     <router-view></router-view >
+    </keep-alive>
   </div>
 </template>
+<script>
+import "./assets/css/reset.css";
+import "./assets/css/index.css";
+import Nav from "./components/Nav/Nav";
+import MyAudio from "./components/MyAudio/MyAudio";
+export default {
+  components: {
+    Nav,
+    MyAudio
+  },
+  mounted(){
+  }
+};
+</script>
 <style lang="stylus">
-#app
-  font-family 'Avenir', Helvetica, Arial, sans-serif
-  -webkit-font-smoothing antialiased
-  -moz-osx-font-smoothing grayscale
-  text-align center
-  color #2c3e50
-
-#nav
-  padding 30px
-  a
-    font-weight bold
-    color #2c3e50
-    &.router-link-exact-active
-      color #42b983
+html,body,#app
+  height 100%
+  width 100%
 </style>
