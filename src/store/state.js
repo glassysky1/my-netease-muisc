@@ -1,16 +1,21 @@
 
-export default{
-  duration:0,
-  loginStatus:false,//登录状态
-  isPlaying:false,
-  currentTime:0,
-  songInfo:{
-    id:'',//不需要
-    musicUrl:'',
-    coverImgUrl:'',
-    name:'',
-    singers:','
+export default {
+  duration: 0,
+  loginStatus: false,//登录状态
+  isPlaying: false,
+  currentTime: 0,
+  songInfo: {
+    id: '',
+    musicUrl: '',
+    coverImgUrl: '',
+    name: '',
+    singers: ',',
+    // musicLrc:''
   },
-  likelist:[],
-  recentPlaylist:[]
+  userInfo: {
+    nickname: '', backgroundUrl: '', avatarUrl: '', gender: '', follows: '', followeds: '', signature: ''
+  }
+  ,
+  likelistIds: [],
+  recentPlaylistIds: []
 }

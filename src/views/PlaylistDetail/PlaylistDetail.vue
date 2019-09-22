@@ -3,7 +3,7 @@
     <BackHeader color="trans" />
     <div class="play-list-detail-top" ref="playListDesc">
       <div class="img-wrap">
-        <img :src="coverImgUrl" class="cover-img" />
+        <img v-lazy="coverImgUrl" class="cover-img" />
       </div>
       <h1 class="play-list-title">{{playlistTitle}}</h1>
       <p class="play-list-update-time">更新时间: {{updateTime}}</p>
@@ -16,7 +16,9 @@
         </div>
         <div class="star-me">{{computeCount}}</div>
       </div>
-      <SongList :tracks="tracks"/>
+      <mt-spinner type="double-bounce" v-if="!tracks">
+      </mt-spinner>
+        <SongList v-else :tracks="tracks" />
     </div>
   </div>
 </template>
@@ -24,12 +26,13 @@
 <script>
 import SongList from "../../components/SongList";
 import moment from "moment";
-moment.locale('zh-cn')
+moment.locale("zh-cn");
 import BackHeader from "../../components/BackHeader";
 export default {
-  name:'PlaylistDetail',
+  name: "PlaylistDetail",
   data() {
     return {
+      //这个id也可以是用户的id，而不是uid
       id: this.$route.query.id,
       coverImgUrl: "",
       playlistTitle: "",
@@ -47,8 +50,7 @@ export default {
     computeCount() {
       if (this.subscribedCount > 10000) {
         return `+ 收藏${(this.subscribedCount / 10000).toFixed(1)}万`;
-      }else{
-        
+      } else {
         return `+ 收藏${this.subscribedCount}`;
       }
     }
@@ -56,7 +58,12 @@ export default {
   methods: {
     async getPlayListDetail() {
       const { data: res } = await this.$axios.get(
-        `${this.HOST}/playlist/detail?id=${this.id}`
+        `${this.HOST}/playlist/detail`,
+        {
+          params: {
+            id: this.id
+          }
+        }
       );
       if (res.code === 200) {
         const {
@@ -65,11 +72,11 @@ export default {
           updateTime,
           trackCount,
           subscribedCount,
-          tracks 
+          tracks
         } = res.playlist;
         this.coverImgUrl = coverImgUrl;
         this.playlistTitle = name;
-        this.updateTime = moment(updateTime).format('MMM Do');
+        this.updateTime = moment(updateTime).format("MMM Do");
         this.trackCount = trackCount;
         this.subscribedCount = subscribedCount;
         this.tracks = tracks;
@@ -83,6 +90,9 @@ export default {
 </script>
 
 <style lang="stylus">
+img[lazy=loading] {
+  width: 100%;
+}
 .play-list-detail-top
   position relative
   .img-wrap

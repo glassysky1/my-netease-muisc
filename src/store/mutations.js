@@ -1,6 +1,7 @@
 import {
   UPDATE_lOGIN_STATUS, SET_SONG_INFO,
-  SET_IS_PLAYING, SET_DURATION,SET_CURRENTTIME
+  SET_IS_PLAYING, SET_DURATION, SET_CURRENTTIME, SET_LIKE_LIST 
+  , UPDATE_RECENT_PLAYLIST, UPDATE_USER_INFO
 } from "./mutation-types";
 export default {
   //更新登录状态
@@ -20,5 +21,24 @@ export default {
   },
   [SET_CURRENTTIME](state,currentTime){
     state.currentTime = currentTime
+  },
+  [SET_LIKE_LIST](state, likelistIds){
+    state.likelistIds = likelistIds
+  },
+  [UPDATE_RECENT_PLAYLIST](state,songId){
+    //如果播放歌曲是一样的话，就不添加到播放列表了
+    let flag =true
+    state.recentPlaylistIds.forEach((item,index)=>{
+      if(item===songId){
+        flag=false
+        return
+      }
+    })
+    if(flag){
+      state.recentPlaylistIds.unshift(songId)
+    }
+  },
+  [UPDATE_USER_INFO](state,userInfo){
+    state.userInfo = userInfo
   }
 }

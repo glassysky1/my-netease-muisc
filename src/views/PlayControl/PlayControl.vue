@@ -7,12 +7,18 @@
         <p class="singers ellipsis">{{this.$route.params.singers}}</p>
       </div>
     </div>
-    <div class="main">
-      <div class="cover-img-box">
+    <div class="main" @click="toggleShowLrc">
+      <div class="cover-img-box" v-show="!showLrc">
         <div class="img-wrap totate" ref="rotateCD">
           <img v-lazy="$route.params.coverImgUrl" alt />
         </div>
       </div>
+      <!-- <Lrc
+        v-show="showLrc"
+        :durationTime="duration"
+        :currentTime="currentTime"
+        :songId =songId
+      ></Lrc> -->
     </div>
     <div class="play-control-footer">
       <div class="progress-wrap">
@@ -23,8 +29,8 @@
         <span class="total-time">{{duration|formatTime}}</span>
       </div>
       <div class="control-panel">
-        <button class="star-me-btn">
-          <i class="iconfont icon-shangyishoushangyige"></i>
+        <button class="star-me-btn" @click="toggleStarStatus">
+          <i :class="starBtnStyle"></i>
         </button>
         <button class="play-last-song-btn">
           <i class="iconfont icon-shangyishoushangyige"></i>
@@ -44,32 +50,60 @@
 </template>
 
 <script>
-import { Lazyload } from 'mint-ui';
-import { mapGetters, mapActions } from "vuex";
+import Vue from "vue";
+// import Lrc from "../../components/Lrc";
+import { Lazyload } from "mint-ui";
+import { mapGetters, mapActions, mapState } from "vuex";
 import BackBtn from "../../components/BackBtn";
+import { toggleStarTheSong, getMusicLrc } from "../../api/index";
+  // const Lrc = Vue.component("lrc", (resolve) => require(["../../components/Lrc"], resolve))
+
 export default {
   name: "PlayControl",
   data() {
     return {
-      iconClassName: "iconfont icon-zanting"
+      iconClassName: "iconfont icon-zanting",
+      showLrc: false
     };
   },
   computed: {
-    ...mapGetters(["isPlaying",'duration','currentTime'])
+    ...mapGetters([
+      "songInfo",
+      "isPlaying",
+      "duration",
+      "currentTime",
+      "likelistIds"
+    ]),
+    songId() {
+      return this.songInfo.id;
+    },
+    //检测当前歌曲是否在喜欢列表里面，如果不在返回true
+    thisSongInLikelist() {
+      return this.likelistIds.indexOf(+this.songId) === -1;
+    },
+    starBtnStyle(){
+      //如果不在，则为true就是灰色的，在的话就是false，是红色的
+      return this.thisSongInLikelist ? 'iconfont icon-aixin1' : 'iconfont icon-aixin1 red'
+    }
   },
   components: {
-    BackBtn
+    BackBtn,
+    // Lrc
   },
-  filters:{
-    formatTime(time){
-      const mm = `${Math.floor(time/60)}`.padStart(2,'0')
-      const ss = `${Math.floor(time%60)}`.padStart(2,'0')
-      return `${mm}:${ss}`
+  filters: {
+    formatTime(time) {
+      const mm = `${Math.floor(time / 60)}`.padStart(2, "0");
+      const ss = `${Math.floor(time % 60)}`.padStart(2, "0");
+      return `${mm}:${ss}`;
     }
   },
   methods: {
     //获取用歌曲信息
-    ...mapActions(["getThenSetSongInfo", "getThenSetIsPlaying"]),
+    ...mapActions([
+      "getThenSetSongInfo",
+      "getThenSetIsPlaying",
+      "getThenSetLikelist"
+    ]),
     //切换状态，并且把isplaying改变
     toggleStatus() {
       this.getThenSetIsPlaying(!this.isPlaying);
@@ -77,43 +111,76 @@ export default {
     //如果播放，则图标字体改成暂停，且界面选择
     togglePlayStatus() {
       this.iconClassName = "iconfont icon-zanting";
-      $(this.$refs.rotateCD).addClass('rotate')
+      $(this.$refs.rotateCD).addClass("rotate");
     },
     toggleStopStatus() {
       this.iconClassName = "iconfont icon-bofang1";
-      $(this.$refs.rotateCD).removeClass('rotate')
-
-    }
+      $(this.$refs.rotateCD).removeClass("rotate");
+    },
+    //点击红心
+    async toggleStarStatus() {
+      try {
+        //true为要喜欢，false为不要喜欢
+        const like = this.thisSongInLikelist;
+        //把歌曲是否喜欢发送出去
+        console.log(this.songId,like);
+        
+        await toggleStarTheSong(this.songId,like)
+        const uid = localStorage.getItem('uid')
+        //重新获取喜欢列表，主要是为了新的数组里面的歌曲与songid再次对比
+        this.getThenSetLikelist(uid)
+      } catch (error) {
+        console.log(error);
+          this.$router.push('/login')
+      }
+    },
+    //歌词切换
+    toggleShowLrc() {
+      this.showLrc = !this.showLrc;
+    },
+    //获取歌词
   },
   watch: {
     //isplay根据自己的改变，调用方法，使得中间字体图片发生改变
     isPlaying(newStatus) {
-        newStatus ? this.togglePlayStatus() : this.toggleStopStatus();
+      newStatus ? this.togglePlayStatus() : this.toggleStopStatus();
+    },
+    //更新播放进度
+    currentTime(newTime) {
+      $(this.$refs.progress).width(`${(newTime / this.duration) * 100}%`);
     }
   },
   mounted() {
+    //从localStorage获取uid
+    const uid = localStorage.getItem("uid");
     this.getThenSetSongInfo({
       //把歌曲信息传给state
       ...this.$route.params
     }),
       //默认是四playing为true
       this.getThenSetIsPlaying(true);
+
+    //当watch监测不到时，启用这个
+    if (this.isPlaying === true) {
+      this.togglePlayStatus();
+    }
+    //通过uid获取喜欢列表
+    this.getThenSetLikelist(uid);
   }
 };
 </script>
 
 <style lang="stylus">
-img[lazy=loading] {
+img[lazy=loading]
   width 100%
   height 100%
-}
 @keyframes infiniteRotate
   from
     transform rotate(0deg)
   to
     transform rotate(360deg)
 .rotate
-  animation infiniteRotate 10s infinite linear 
+  animation infiniteRotate 10s infinite linear
 .page-wrap
   height 100%
   background-color rgba(0, 0, 0, 0.3)

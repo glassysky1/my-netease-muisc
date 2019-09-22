@@ -1,8 +1,8 @@
 <template>
   <div>
     <div class="mp-header">
-      <button class="toggle-button btn-hamburger">
-        <i class="iconfont icon-cebianlan"></i>
+      <button class="toggle-button btn-hamburger" >
+        <i class="iconfont icon-cebianlan3"></i>
       </button>
       <router-link to="/home">推荐页</router-link>
       <router-link to="/my">个人中心</router-link>
@@ -14,21 +14,23 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
+import { mapState, mapActions } from "vuex";
 export default {
-  computed:{
-    ...mapState(['loginStatus'])
+  computed: {
+    ...mapState(["loginStatus"])
   },
-  methods:{
+  methods: {
+    ...mapActions(["getLogoutThenSetLoginStatus"]),
    
-  }
+  },
+  mounted() {}
 };
 </script>
 
 <style lang="stylus" >
 .btn-hamburger
-  background-color rgba(0,0,0,0)
-  border none 
+  background-color rgba(0, 0, 0, 0)
+  border none
 .icon-sousuo, .icon-cebianlan
   display block
   font-size 22px

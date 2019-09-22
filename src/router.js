@@ -6,6 +6,7 @@ import My from './views/My/My.vue'
 import LeaderBoard from './views/LeaderBoard/LeaderBoard.vue'
 import PlaylistDetail from './views/PlaylistDetail/PlaylistDetail.vue';
 import PlayControl from "./views/PlayControl/PlayControl.vue";
+import RecentPlay from "./views/RecentPlay/RecentPlay.vue";
 import Login from "./views/Login/Login.vue";
 import store from './store'
 Vue.use(Router)
@@ -53,6 +54,11 @@ const router = new Router({
       path:'/login',
       name:'Login',
       component:Login
+    },
+    {
+      path:'/recent-play',
+      name:'RecentPlay',
+      component: RecentPlay
     }
   ]
 })

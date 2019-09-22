@@ -4,7 +4,7 @@
     <Nav v-if="this.$route.meta.showNav" />
     <keep-alive :exclude="['PlaylistDetail', 'MyAudio', 'PlayControl']">
       <transition>
-     <router-view></router-view >
+        <router-view></router-view>
       </transition>
     </keep-alive>
   </div>
@@ -14,19 +14,26 @@ import "./assets/css/reset.css";
 import "./assets/css/index.css";
 import Nav from "./components/Nav/Nav";
 import MyAudio from "./components/MyAudio/MyAudio";
+import { getLogout } from "./api/index";
 export default {
   components: {
     Nav,
-    MyAudio
+    MyAudio,
   },
-  mounted(){
+  methods: {
+  },
+  mounted() {
+    //得到登录状态
+    this.$store.dispatch("getThenSetLoginStatus");
   }
 };
 </script>
 <style lang="stylus">
-html,body,#app
+html, body, #app
   height 100%
   width 100%
+#app
+  overflow-x hidden
   .v-enter-active, .v-leave-active
     transition all 0.5s ease
   .v-enter

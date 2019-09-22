@@ -7,7 +7,14 @@
           <i class="iconfont icon-shouji"></i>
           <span class="country-code">+86</span>
         </label>
-        <input type="tel" class="tel-input" pattern="^1[345789]\d{9}" v-model="phone" autofocus required />
+        <input
+          type="tel"
+          class="tel-input"
+          pattern="^1[345789]\d{9}"
+          v-model="phone"
+          autofocus
+          required
+        />
         <button class="clean-btn">
           <i class="iconfont icon-chahao"></i>
         </button>
@@ -35,6 +42,7 @@
 import { Toast } from "mint-ui";
 import { mapActions } from "vuex";
 import BackHeader from "../../components/BackHeader";
+import { getLoginStatus ,login} from "../../api/index";
 export default {
   name: "Login",
   data() {
@@ -47,23 +55,24 @@ export default {
     BackHeader
   },
   methods: {
-    ...mapActions(['getThenSetLoginStatus']),
     async tryToLogin() {
       const { phone, password } = this;
       try {
-        const{data:res} = await this.$axios.post(`${this.HOST}/login/cellphone?phone=${phone}&password=${password}`);
-        localStorage.setItem('uid',res.account.id)//下娘用户的id即uid储存来
+        const { data: res } = await login(phone,password)
+        console.log(res);
         
-        this.getThenSetLoginStatus()
-        this.$router.replace('/my')
-        Toast('登录成功')
+        localStorage.setItem("uid", res.account.id); //下娘用户的id即uid储存来
+        await this.$store.dispatch("getThenSetLoginStatus");
+        this.$router.replace("/my");
+        Toast("登录成功");
       } catch (e) {
-       Toast('账号或密码错误') 
+        console.log(e);
+
+        Toast("账号或密码错误");
       }
     }
   },
-  mounted(){
-  }
+  mounted() {}
 };
 </script>
 
