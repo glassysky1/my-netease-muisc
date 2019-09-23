@@ -2,7 +2,7 @@
   <div id="app">
     <MyAudio></MyAudio>
     <Nav v-if="this.$route.meta.showNav" />
-    <keep-alive :exclude="['PlaylistDetail', 'MyAudio', 'PlayControl']">
+    <keep-alive :exclude="['PlaylistDetail', 'MyAudio','My', 'PlayControl']">
       <transition>
         <router-view></router-view>
       </transition>

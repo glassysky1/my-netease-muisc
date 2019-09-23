@@ -1,13 +1,14 @@
 <template>
   <div class="home">
-    <div class="redWall"></div>
     <HomeSwiper />
-    <FourCircles/>
-    <RecommendSongList/>
+    <FourCircles />
+    <RecommendSongList />
+    <div class="redWall"></div>
   </div>
 </template>
 
 <script>
+// import BScroll from "@better-scroll/core";
 import HomeSwiper from "./HomeSwiper";
 import FourCircles from "./FourCircles";
 import RecommendSongList from "./RecommendSongList";
@@ -16,11 +17,23 @@ export default {
     HomeSwiper,
     FourCircles,
     RecommendSongList
+  },
+  methods: {
+    // _initBScroll() {
+    //   new BScroll("#app", {
+    //     click: true,
+    //     probeType: 3
+    //   });
+    // }
+  },
+  mounted() {
+    // this._initBScroll();
   }
 };
 </script>
 <style lang="stylus" scoped>
 .home
+  height 100%
   .redWall
     position absolute
     z-index -1 // 使红墙显示在最底层

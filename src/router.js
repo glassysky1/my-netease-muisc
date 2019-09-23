@@ -9,6 +9,7 @@ import PlayControl from "./views/PlayControl/PlayControl.vue";
 import RecentPlay from "./views/RecentPlay/RecentPlay.vue";
 import Login from "./views/Login/Login.vue";
 import store from './store'
+import Search from "./views/Search/Search.vue";
 Vue.use(Router)
 
 const router = new Router({
@@ -22,7 +23,8 @@ const router = new Router({
       name: 'home',
       component: Home,
       meta:{
-        showNav:true
+        showNav:true,
+        
       }
     },
     {
@@ -59,6 +61,11 @@ const router = new Router({
       path:'/recent-play',
       name:'RecentPlay',
       component: RecentPlay
+    },
+    {
+      path:'/search',
+      name:'Search',
+      component: Search
     }
   ]
 })

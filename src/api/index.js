@@ -4,10 +4,10 @@ const BASE_URL = 'http://localhost:3000'
 
 //得到登录状态
 
-export const getLoginStatus = () => axios.get(`${BASE_URL}/login/status`,{
-  withCredentials:true,
-  params:{
-    random:Math.random()
+export const getLoginStatus = () => axios.get(`${BASE_URL}/login/status`, {
+  withCredentials: true,
+  params: {
+    random: Math.random()
   }
 })
 
@@ -15,10 +15,10 @@ export const getLoginStatus = () => axios.get(`${BASE_URL}/login/status`,{
 export const getMusicUrl = (id) => ajax(`${BASE_URL}/song/url`, { id })
 
 //根据音乐获取歌词
-export const getMusicLrc = (id) => axios.get(`${BASE_URL}/lyric`,{
-   params:{
-     id,
-   }
+export const getMusicLrc = (id) => axios.get(`${BASE_URL}/lyric`, {
+  params: {
+    id,
+  }
 })
 //加random的 作用使得get请求不走缓存
 ///likelist?uid=32953014
@@ -50,16 +50,16 @@ export const getLogout = () => axios(`${BASE_URL}/logout`, {
   }
 });
 //登录
-export const login = (phone,password) =>axios.get(`${BASE_URL}/login/cellphone`,{
-  params:{
+export const login = (phone, password) => axios.get(`${BASE_URL}/login/cellphone`, {
+  params: {
     phone,
     password,
-    random:Math.random()
+    random: Math.random()
   },
-  withCredentials:true
+  withCredentials: true
 })
 //获取用户信息
-export const getUesrInfo = (uid) => axios.get(`${BASE_URL}/user/detail`,{
+export const getUesrInfo = (uid) => axios.get(`${BASE_URL}/user/detail`, {
   params: {
     uid,
     random: Math.random()
@@ -68,10 +68,28 @@ export const getUesrInfo = (uid) => axios.get(`${BASE_URL}/user/detail`,{
 })
 
 //喜欢信息
-export const toggleStarTheSong =(musicId,like)=>axios.get(`${BASE_URL}/like`,{
-  params:{
-    id:musicId,
+export const toggleStarTheSong = (musicId, like) => axios.get(`${BASE_URL}/like`, {
+  params: {
+    id: musicId,
     like,
   },
-  withCredentials:true
+  withCredentials: true
+})
+
+//搜索建议
+export const getSearchSuggestions = keywords => axios.get(`${BASE_URL}/search/suggest`, {
+ params:{
+    keywords,
+    type: "mobile"
+ }
+
+})
+//获取热词
+export const getHotSearch = () => axios.get(`${BASE_URL}/search/hot`)
+
+//根据关键字获取歌曲列表
+export const getSearchResult = keywords =>axios.get(`${BASE_URL}/search`,{
+  params:{
+    keywords
+  }
 })

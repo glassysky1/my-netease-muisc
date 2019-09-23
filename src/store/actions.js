@@ -35,6 +35,8 @@ export default {
     try {
       const songId = songInfo.id;
       const { data: res } = await getMusicUrl(songId)
+      console.log(res);
+      
       // const {data:res1} = await getMusicLrc(songId)
      
       // const musicLrc = res1.lrc.lyric

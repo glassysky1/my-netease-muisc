@@ -43,6 +43,7 @@ export default {
 
 <style lang="stylus">
 .recom-songlist
+  background #fff
   .recom-songlist-header
     font-size 17px
     padding-left 3px

@@ -16,9 +16,7 @@
         </div>
         <div class="star-me">{{computeCount}}</div>
       </div>
-      <mt-spinner type="double-bounce" v-if="!tracks">
-      </mt-spinner>
-        <SongList v-else :tracks="tracks" />
+        <SongList  :tracks="tracks" />
     </div>
   </div>
 </template>

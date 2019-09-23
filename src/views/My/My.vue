@@ -180,5 +180,6 @@ export default {
     line-height 40px
     text-align center
     font-size 16px
+    color #fff
     border-radius 16px
 </style>
