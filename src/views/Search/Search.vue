@@ -1,6 +1,6 @@
 <template>
   <div class="search-box left-right-padding-box">
-    <BackHeader color="red" :input="true" :doAfterUserEnter="startSearch" />
+    <BackHeader color="red" :input="true" :doAfterUserEnter="startSearch" :doAfterUserClick="startSearch" />
     <!-- 默认搜索列表是开启的 -->
     <SearchList v-if="!showResultPageFlag" :doAfterUserClick="startSearch" :list="hots" class="hot-search" title="热门搜索"/>
     <SearchList v-if="!showResultPageFlag" :doAfterUserClick="startSearch" :list="history" title="历史记录" class="hot-search"/>
@@ -55,10 +55,10 @@ export default {
   mounted(){
     this.getData()
   },
-  // beforeRouteLeave(to, from, next) {
-  //   this.showResultPageFlag = false;
-  //   next();
-  // },
+  beforeRouteLeave(to, from, next) {
+    this.showResultPageFlag = false;
+    next();
+  },
 };
 </script>
 

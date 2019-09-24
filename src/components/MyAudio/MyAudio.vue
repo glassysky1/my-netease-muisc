@@ -7,7 +7,7 @@
       :src="songInfo.musicUrl"
       autoplay
     ></audio>
-    <section v-show="showFlag"  @click="toSongComponent" class="footer-control-panel clear">
+    <section v-show="showFlag" @click="toSongComponent" class="footer-control-panel clear">
       <div class="img-wrap">
         <img class="small-cover-img" :src="songInfo.coverImgUrl" />
       </div>
@@ -42,9 +42,9 @@ export default {
       //不在‘MyAudio’路由，且audio里面有歌时(标志位为duration，不为NAN)才显示
       if (
         this.$route.name != "MyAudio" &&
-        this.$refs.audio &&//必须加这段不然会报错
-        this.$refs.audio.duration&&
-        this.$route.name !='PlayControl'
+        this.$refs.audio && //必须加这段不然会报错
+        this.$refs.audio.duration &&
+        this.$route.name != "PlayControl"
       ) {
         return true;
       }
@@ -94,22 +94,25 @@ export default {
       //当前时间为0
       this.getThenSetCurrentTime(0);
     },
-    togglePlayerStatus(){//切换播放状态
-      this.getThenSetIsPlaying(!this.isPlaying)
+    togglePlayerStatus() {
+      //切换播放状态
+      this.getThenSetIsPlaying(!this.isPlaying);
     },
     //点播放界面
-    toSongComponent(){
+    toSongComponent() {
       //把数据传到playControl
       this.$router.push({
-        name:'PlayControl',
-        params:{
-          name:this.songInfo.name,
+        name: "PlayControl",
+        query: {
+          name: this.songInfo.name,
           singers: this.songInfo.singers,
-          id: this.songInfo.id,
+          id: this.songInfo.id
+        },
+        params: {
           coverImgUrl: this.songInfo.coverImgUrl
         }
-      })
-    }
+      });
+    },
   }
 };
 </script>

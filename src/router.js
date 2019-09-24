@@ -48,7 +48,7 @@ const router = new Router({
      
     },
     {
-      path:'/playcontrol',
+      path:'/playcontrol/:coverImgUrl',
       name:'PlayControl',
       component: PlayControl
     },

@@ -2,11 +2,11 @@
   <div id="app">
     <MyAudio></MyAudio>
     <Nav v-if="this.$route.meta.showNav" />
-    <keep-alive :exclude="['PlaylistDetail', 'MyAudio','My', 'PlayControl']">
-      <transition>
+    <transition>
+      <keep-alive :exclude="['PlaylistDetail', 'MyAudio','My', 'PlayControl']">
         <router-view></router-view>
-      </transition>
-    </keep-alive>
+      </keep-alive>
+    </transition>
   </div>
 </template>
 <script>
@@ -18,10 +18,9 @@ import { getLogout } from "./api/index";
 export default {
   components: {
     Nav,
-    MyAudio,
+    MyAudio
   },
-  methods: {
-  },
+  methods: {},
   mounted() {
     //得到登录状态
     this.$store.dispatch("getThenSetLoginStatus");

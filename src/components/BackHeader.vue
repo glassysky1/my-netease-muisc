@@ -11,7 +11,7 @@
       autofocus
       @keydown.enter="headleEnter"
     />
-    <div v-if="searchSuggestinsFlag" class="search-suggestions-container">
+    <div v-if="searchSuggestinsFlag" class="search-suggestions-container" @click="handleClick">
       <ul class="search-suggestions-list">
         <li class="search-suggestions-item">{{`搜索"${userInput}"`}}</li>
         <li class="search-suggestions-item" v-for="(item,index) in allMatch" :key="index">
@@ -32,7 +32,6 @@ export default {
       headerClass: "",
       userInput: "",
       allMatch: [],
-      userInput: ""
     };
   },
   components: {
@@ -53,6 +52,7 @@ export default {
     }
   },
   methods: {
+    //获取搜索建议词
     async getData(newValue) {
       const { data: res } = await getSearchSuggestions(newValue);
       this.allMatch = res.result.allMatch;
@@ -65,9 +65,17 @@ export default {
       //先传值再清值
       this.doAfterUserEnter(this.userInput)
       this.cleanUserInput();
+    },
+    //点击词，搜索
+      handleClick(e){
+      const src = e.target
+      if(src.className ==='keyword-item'){
+        this.doAfterUserClick(src.innerText)
+        this.cleanUserInput();
+      }
     }
   },
-  props: ["color", "title", "input","doAfterUserEnter"],
+  props: ["color", "title", "input","doAfterUserEnter","doAfterUserClick"],
   mounted() {
     this.headerClass = `back-header ${this.color}`;
   }

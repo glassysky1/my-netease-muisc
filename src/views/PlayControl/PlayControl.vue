@@ -3,8 +3,8 @@
     <div class="play-control-header">
       <BackBtn class="back-btn"></BackBtn>
       <div class="song-info">
-        <h1 class="song-name ellipsis">{{this.$route.params.name}}</h1>
-        <p class="singers ellipsis">{{this.$route.params.singers}}</p>
+        <h1 class="song-name ellipsis">{{this.$route.query.name}}</h1>
+        <p class="singers ellipsis">{{this.$route.query.singers}}</p>
       </div>
     </div>
     <div class="main" @click="toggleShowLrc">
@@ -155,6 +155,7 @@ export default {
     const uid = localStorage.getItem("uid");
     this.getThenSetSongInfo({
       //把歌曲信息传给state
+      ...this.$route.query,
       ...this.$route.params
     }),
       //默认是四playing为true

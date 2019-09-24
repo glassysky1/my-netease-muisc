@@ -4,7 +4,7 @@
       <li class="track-item" v-for="(item,index) in tracks" :key="index">
         <router-link
           class="link-to-play-control"
-          :to="{name:'PlayControl',params:{name:item.name,singers:item.ar[0].name,id:item.id,coverImgUrl:item.al.picUrl}}"
+          :to="{name:'PlayControl',query:{name:item.name,singers:item.ar[0].name,id:item.id},params:{coverImgUrl:item.al.picUrl}}"
         >
           <div class="track-rank">{{index+1}}</div>
           <div class="track-info">

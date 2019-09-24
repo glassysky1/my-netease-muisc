@@ -2,12 +2,10 @@
   <div class="four-circles-box">
     <ul class="four-circles">
       <li class="circle-item">
-        <router-link to="/login">
           <div class="circle-box">
             <i class="iconfont icon-icon--"></i>
           </div>
           <h5 class="title">私人FM</h5>
-        </router-link>
       </li>
       <li class="circle-item">
         <div class="circle-box">

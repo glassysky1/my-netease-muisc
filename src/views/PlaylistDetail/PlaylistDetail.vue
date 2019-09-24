@@ -16,12 +16,18 @@
         </div>
         <div class="star-me">{{computeCount}}</div>
       </div>
+      <!-- <Spin :spining="true"></Spin> -->
+      <!-- 如果长度为0，则调用spin -->
+      <!-- <Spin :spining="tracks.length ===0"/> -->
         <SongList  :tracks="tracks" />
+      <!-- </Spin> -->
+      
     </div>
   </div>
 </template>
 
 <script>
+import Spin from "../../components/Spin";
 import SongList from "../../components/SongList";
 import moment from "moment";
 moment.locale("zh-cn");
